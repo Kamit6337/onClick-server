@@ -10,7 +10,6 @@ const chatSchema = new mongoose.Schema(
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true, "Need to provide Sender"],
     },
     isLabel: {
       type: Boolean,
@@ -24,45 +23,18 @@ const chatSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-    isFile: {
-      type: Boolean,
-      default: false,
-    },
-    file: {
-      fileType: {
-        type: String,
-        enum: ["image", "video", "pdf"],
-        default: null,
-      },
-      originalName: {
-        type: String,
-        default: null,
-      },
-      destination: {
-        type: String,
-        default: null,
-      },
-      fileName: {
-        type: String,
-        default: null,
-      },
-      size: {
-        type: Number,
-        default: null,
-      },
-    },
   },
   {
     timestamps: true,
   }
 );
 
-chatSchema.pre("save", function (next) {
-  if (!!this.file.fileType) {
-    this.isFile = true;
-  }
+// chatSchema.pre("save", function (next) {
+//   if (!!this.file.fileType) {
+//     this.isFile = true;
+//   }
 
-  next();
-});
+//   next();
+// });
 
 export const Chat = mongoose.model("Chat", chatSchema);

@@ -1,3 +1,4 @@
+import { Chat } from "../../models/chatModel.js";
 import { Room } from "../../models/roomModel.js";
 import HandleGlobalError from "../../utils/HandleGlobalError.js";
 import catchAsyncError from "../../utils/catchAsyncError.js";
@@ -12,9 +13,10 @@ const deleteSingleRoom = catchAsyncError(async (req, res, next) => {
     return next(new HandleGlobalError("room id is not provided", 404));
   }
 
-  const findRoom = await Room.findOne({ _id: id });
-
-  await deleteRoomFunction(id, findRoom);
+  await Promise.all([
+    Room.deleteOne({ _id: id }),
+    Chat.deleteMany({ room: id }),
+  ]);
 
   res.status(200).json({
     message: "Room along with its chats also deleted",

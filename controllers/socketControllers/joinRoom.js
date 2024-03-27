@@ -1,10 +1,12 @@
 const joinRoom = (io, socket) => {
-  socket.on("joinRoom", (arg, callback) => {
+  socket.on("rooms", (arg, callback) => {
     const { rooms } = arg;
 
     rooms.forEach((room) => {
       socket.join(room);
     });
+
+    console.log("Rooms has joinded", rooms);
 
     callback({ status: "ok" });
   });

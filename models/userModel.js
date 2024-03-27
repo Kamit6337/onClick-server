@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       default: null,
+      select: false,
     },
     photo: {
       type: String,
@@ -31,27 +32,17 @@ const userSchema = new mongoose.Schema(
     OAuthId: {
       type: String,
       default: null,
+      select: false,
     },
     OAuthProvider: {
       type: String,
       default: null,
+      select: false,
     },
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
-    },
-    loginCount: {
-      type: Number,
-      default: 1,
-    },
-    lastLogin: {
-      type: Date,
-      default: Date.now(),
-    },
-    doubleVerify: {
-      type: Boolean,
-      default: false,
     },
   },
   {

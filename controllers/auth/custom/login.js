@@ -57,17 +57,6 @@ const login = catchAsyncError(async (req, res, next) => {
     }
   }
 
-  //   MARK: UPDATE THE USER PROFILE AFTER SUCCESSFUL LOGIN
-  await User.findOneAndUpdate(
-    {
-      _id: findUser._id,
-    },
-    {
-      $inc: { loginCount: 1 },
-      $currentDate: { lastLoginAt: true },
-    }
-  );
-
   //   MARK: USER EMAIL AND PASSWORD IS CONFIRMED, SEND TOKEN AND MAKE LOGIN
   const token = generateWebToken({
     id: findUser._id,

@@ -16,23 +16,21 @@ const chatMessage = (io, socket) => {
         sender: userId,
       };
 
-      // const createChat = await Chat.create(chatObj);
+      const promises = [
+        Chat.create(chatObj),
+        Room.findOneAndUpdate(
+          {
+            _id: room,
+          },
+          {
+            updatedAt: Date.now(),
+          }
+        ),
+      ];
 
-      // await Room.findOneAndUpdate(
-      //   {
-      //     _id: room,
-      //   },
-      //   {
-      //     updatedAt: Date.now(),
-      //   }
-      // );
+      const [createChat] = await Promise.all(promises);
 
-      if (!chatObj) {
-        console.log("Error in chat creation");
-        return;
-      }
-
-      chatObj.sender = user;
+      createChat.sender = user;
 
       io.to(room).emit("chatMessage", createChat, (err) => {
         if (err) {
