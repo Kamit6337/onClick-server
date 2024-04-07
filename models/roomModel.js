@@ -1,15 +1,34 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const roomSchema = new mongoose.Schema(
+const roomSchema = new Schema(
   {
+    name: {
+      type: String,
+      default: null,
+    },
     members: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
       },
     ],
+    admin: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+    ],
+    isGroupChat: {
+      type: Boolean,
+      default: false,
+    },
     isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    onlyAdminCanMsg: {
       type: Boolean,
       default: false,
     },
@@ -19,4 +38,4 @@ const roomSchema = new mongoose.Schema(
   }
 );
 
-export const Room = mongoose.model("Room", roomSchema);
+export const Room = model("Room", roomSchema);

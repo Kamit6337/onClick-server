@@ -6,6 +6,7 @@ import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import roomRouter from "./routes/roomRoutes.js";
 import chatRouter from "./routes/chatRoutes.js";
+import userRoomRouter from "./routes/userRoomRoutes.js";
 import downloadRouter from "./routes/downloadRoutes.js";
 import authMiddleware from "./middlewares/socket/authMiddleware.js";
 import protectRoute from "./middlewares/protectUserRoutes.js";
@@ -20,22 +21,12 @@ const { io, app, httpServer } = initSocket();
 // NOTE: GLOBAL MIDDLEWARES
 globalMiddlewares(app);
 
-// app.post("/form", chatImageUpload.single("image"), (req, res, next) => {
-//   const body = req.body;
-//   const filePath = req.file?.path;
-
-//   res.json({
-//     name: "Amit",
-//     body,
-//     filePath,
-//   });
-// });
-
 // NOTE: DIFFERENT ROUTES
 app.use("/auth", authRouter);
 app.use("/user", protectRoute, userRouter);
 app.use("/room", protectRoute, roomRouter);
 app.use("/chat", protectRoute, chatRouter);
+app.use("/userRoom", protectRoute, userRoomRouter);
 app.use("/download", protectRoute, downloadRouter);
 
 // NOTE: SOCKET.IO MIDDLEWARES
@@ -44,8 +35,6 @@ io.use(authMiddleware);
 // NOTE: SOCKET.IO CONNECTION
 io.on("connection", (socket) => {
   console.log("User is connected");
-
-  joinConnection(io, socket);
 
   // MARK: JOIN INTO ROOM
   joinRoom(io, socket);

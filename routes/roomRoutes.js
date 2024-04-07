@@ -5,25 +5,26 @@ import createSingleRoom from "../controllers/roomControllers/createSingleRoom.js
 import { groupChatProfileUpload } from "../lib/multerSetup.js";
 import updateGroupRoom from "../controllers/roomControllers/updateGroupRoom.js";
 import deleteSingleRoom from "../controllers/roomControllers/deleteSingleRoom.js";
-import deleteGroupRoom from "../controllers/roomControllers/deleteGroupRoom.js";
+import leaveGroupRoom from "../controllers/roomControllers/leaveGroupRoom.js";
 
 const router = express.Router();
 
 // MARK: GET USER ROOMS
-router.route("/").get(getUserRooms);
+router.route("/").get(getUserRooms).delete(deleteSingleRoom);
 
-// MARK: CREATE AND DELETE SINGLE CHAT
+// MARK: LEAVE GROUP CHAT
+
+router.delete("/leave", leaveGroupRoom);
+
+// MARK: CREATE
 /* prettier-ignore */
 router
-.route("/single")
-.post(createSingleRoom)
-.delete(deleteSingleRoom);
+.post("/single", createSingleRoom)
 
 // MARK: CREATE AND DELETE GROUP CHAT
 router
   .route("/group")
   .post(groupChatProfileUpload.single("image"), createGroupRoom)
-  .patch(groupChatProfileUpload.single("image"), updateGroupRoom)
-  .delete(deleteGroupRoom);
+  .patch(groupChatProfileUpload.single("image"), updateGroupRoom);
 
 export default router;

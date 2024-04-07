@@ -12,13 +12,13 @@ const userRoomSchema = new Schema(
       ref: "Room",
       required: true,
     },
-    isBlocked: {
+    showBlockMsg: {
       type: Boolean,
-      default: false,
+      default: true,
     },
-    seenBlockedMessage: {
+    showGroupLeaveMsg: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     unread: {
       type: Number,

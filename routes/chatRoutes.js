@@ -4,10 +4,11 @@ import chatImage from "../controllers/chatControllers/chatImage.js";
 import { chatImageUpload, chatPDFUpload } from "../lib/multerSetup.js";
 import chatPdf from "../controllers/chatControllers/chatPdf.js";
 import deleteChat from "../controllers/chatControllers/deleteChat.js";
+import createChatMsg from "../controllers/chatControllers/createChatMsg.js";
 
 const router = express.Router();
 
-router.route("/").get(getRoomChats).delete(deleteChat);
+router.route("/").get(getRoomChats).post(createChatMsg).delete(deleteChat);
 
 router
   .post("/image", chatImageUpload.single("image"), chatImage)

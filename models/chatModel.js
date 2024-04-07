@@ -29,12 +29,4 @@ const chatSchema = new mongoose.Schema(
   }
 );
 
-// chatSchema.pre("save", function (next) {
-//   if (!!this.file.fileType) {
-//     this.isFile = true;
-//   }
-
-//   next();
-// });
-
 export const Chat = mongoose.model("Chat", chatSchema);
